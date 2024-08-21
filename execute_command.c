@@ -7,38 +7,45 @@
  * @environ: pointer to array of environment variables
  * Return: void
  */
+
 void execute_command(char *program_name, char **args, char **environ)
 {
-	pid_t pid;
-	char *executable_path;
+    pid_t pid;
+    char *executable_path;
 
-	executable_path = find_executable_path(args[0]);
+    if (strcmp(args[0], "exit") == 0)
+    {
+        exit(0);
+    }
 
-	if (executable_path == NULL)
-	{
-		fprintf(stderr, "%s: 1: %s: not found\n", program_name, args[0]);
-		return;
-	}
+    executable_path = find_executable_path(args[0]);
 
-	pid = fork();
-	if (pid < 0)
-	{
-		perror("fork failed");
-		exit(EXIT_FAILURE);
-	}
-	if (pid == 0)
-	{
-		if (execve(executable_path, args, environ) == -1)
-		{
-			fprintf(stderr, "%s: 1: %s: not found\n", program_name, args[0]);
-			exit(EXIT_FAILURE);
-		}
-	}
-	else
-	{
-		wait(NULL);
-	}
+    if (executable_path == NULL)
+    {
+        fprintf(stderr, "%s: 1: %s: not found\n", program_name, args[0]);
+        return;
+    }
 
-	if (executable_path != args[0])
-		free(executable_path);
+    pid = fork();
+    if (pid < 0)
+    {
+        perror("fork failed");
+        exit(EXIT_FAILURE);
+    }
+    if (pid == 0)
+    {
+        if (execve(executable_path, args, environ) == -1)
+        {
+            fprintf(stderr, "%s: 1: %s: not found\n", program_name, args[0]);
+            exit(EXIT_FAILURE);
+        }
+    }
+    else
+    {
+        wait(NULL);
+    }
+
+    if (executable_path != args[0])
+        free(executable_path);
 }
+
