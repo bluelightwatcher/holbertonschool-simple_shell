@@ -108,57 +108,36 @@ char *find_executable_in_directories(char **directories, char *command)
  */
 char *find_executable_path(char *command)
 {
-	char *path_env = getenv("PATH");
-	char *path_env_dup;
-	char **directories;
-	char *full_path;
+	char *path_env, *path_env_dup, **directories, *full_path;
 	int i;
 
-	if (command[0] == '/')
-	{
-		if (access(command, X_OK) == 0)
-		{
-			return strdup(command);
-		}
-		else
-		{
-			return NULL;
-		}
-	}
+	if (command[0] == '/' && access(command, X_OK) == 0)
+		return (strdup(command));
 
+	path_env = getenv("PATH");
 	if (!path_env)
-	{
-		perror("PATH not found");
-		return NULL;
-	}
+		return (NULL);
 
 	path_env_dup = strdup(path_env);
-	if (path_env_dup == NULL)
-	{
-		perror("strdup failed");
-		return NULL;
-	}
+	if (!path_env_dup)
+		return (NULL);
 
 	directories = tokenize_path(path_env_dup);
 	free(path_env_dup);
+	if (!directories)
+		return (NULL);
 
-	if (directories == NULL)
-	{
-		perror("Tokenization of PATH failed");
-		return NULL;
-	}
-
-	for (i = 0; directories[i] != NULL; i++)
+	for (i = 0; directories[i]; i++)
 	{
 		full_path = build_full_path(directories[i], command);
 		if (access(full_path, X_OK) == 0)
 		{
 			free(directories);
-			return full_path;
+			return (full_path);
 		}
 		free(full_path);
 	}
 
 	free(directories);
-	return NULL;
+	return (NULL);
 }
