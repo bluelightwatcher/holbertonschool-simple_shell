@@ -42,3 +42,24 @@ char **token_args(char *input)
 
 	return (args);
 }
+
+
+/**
+ * free_args - frees memory allocated for args
+ * @args: array of strings to free
+ */
+void free_args(char **args)
+{
+	int i = 0;
+
+	if (args == NULL)
+		return;
+
+	while (args[i])
+	{
+		free(args[i]);
+		i++;
+	}
+
+	free(args);
+}

@@ -92,7 +92,9 @@ char *find_executable_in_directories(char **directories, char *command)
 			continue;
 
 		if (stat(full_path, &st) == 0 && (st.st_mode & S_IXUSR))
+		{
 			return (full_path);
+		}
 
 		free(full_path);
 		i++;
@@ -124,6 +126,7 @@ char *find_executable_path(char *command)
 
 	directories = tokenize_path(path_env_dup);
 	free(path_env_dup);
+
 	if (!directories)
 		return (NULL);
 

@@ -37,4 +37,6 @@ char **token_args(char *input);
 char *process_input(void);
 void display_prompt(void);
 
+void free_args(char **args);
+
 #endif /* MAIN_H */
