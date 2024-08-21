@@ -5,7 +5,7 @@
  * @argc: is the number or arguments passed to the program
  * @argv: is a string of command typed by the user
  * @environ: is a pointer to the program variable environment
- * Return: 0 on sucess 1 on faillure
+ * Return: 0 on success, 1 on failure
  */
 int main(int argc, char **argv, char **environ)
 {

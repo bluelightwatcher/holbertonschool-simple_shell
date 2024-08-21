@@ -4,7 +4,6 @@
  * process_input - stores the stdin in char *input
  * Return: char *input
  */
-
 char *process_input(void)
 {
 	char *input = NULL;
@@ -21,3 +20,4 @@ char *process_input(void)
 	input[strcspn(input, "\n")] = '\0'; /* Remove newline character */
 	return (input);
 }
+

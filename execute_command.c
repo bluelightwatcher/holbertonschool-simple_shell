@@ -1,51 +1,49 @@
 #include "main.h"
 
 /**
- * execute_command - forks a process to execute a command
- * @args: pointer to array of string args
- * @program_name: name of the program for error messages
- * @environ: pointer to array of environment variables
- * Return: void
+ * execute_command - Executes a command by forking a child process
+ * @program_name: The name of the shell program
+ * @args: The arguments for the command
+ * @environ: The environment variables
  */
-
 void execute_command(char *program_name, char **args, char **environ)
 {
-    pid_t pid;
-    char *executable_path;
+	char *executable_path;
+	pid_t pid;
+	int status;
 
-    if (strcmp(args[0], "exit") == 0)
-    {
-        exit(0);
-    }
-
-    executable_path = find_executable_path(args[0]);
-
-    if (executable_path == NULL)
-    {
-        fprintf(stderr, "%s: 1: %s: not found\n", program_name, args[0]);
-        return;
-    }
-
-    pid = fork();
-    if (pid < 0)
-    {
-        perror("fork failed");
-        exit(EXIT_FAILURE);
-    }
-    if (pid == 0)
-    {
-        if (execve(executable_path, args, environ) == -1)
-        {
-            fprintf(stderr, "%s: 1: %s: not found\n", program_name, args[0]);
-            exit(EXIT_FAILURE);
-        }
-    }
-    else
-    {
-        wait(NULL);
-    }
-
-    if (executable_path != args[0])
-        free(executable_path);
+	if (handle_builtin(args))
+	{
+		return;
+	}
+	executable_path = find_executable_path(args[0]);
+	if (executable_path == NULL)
+	{
+		fprintf(stderr, "%s: 1: %s: not found\n", program_name, args[0]);
+		return;
+	}
+	pid = fork();
+	if (pid < 0)
+	{
+		perror("fork failed");
+		free(executable_path);
+		exit(EXIT_FAILURE);
+	}
+	else if (pid == 0)
+	{
+		if (execve(executable_path, args, environ) == -1)
+		{
+			perror("execve failed");
+			free(executable_path);
+			exit(EXIT_FAILURE);
+		}
+	}
+	else
+	{
+		if (waitpid(pid, &status, 0) == -1)
+		{
+			perror("waitpid failed");
+		}
+	}
+	free(executable_path);
 }
-
