@@ -1,52 +1,103 @@
 #include "main.h"
 
-/**
- * find_executable_path - Searches for the executable in the PATH directories
- * @command: Command to search for
- * @environ: The environment variables
- * Return: Full path to the executable or NULL if not found
- */
-
-char *find_executable_path(char *command, char **environ)
+char *get_path_env(void)
 {
-	char *path_env, *path_dup, *token, *full_path;
-	struct stat st;
+	char *path_env = getenv("PATH");
 
-	if (command == NULL || environ == NULL)
+	if (path_env == NULL)
 		return (NULL);
 
-	if (strchr(command, '/'))
-		return (command);
+	return (strdup(path_env));
+}
 
-	path_env = getenv("PATH");
-	if (!path_env)
+
+
+char **tokenize_path(char *path_env)
+{
+	char **tokens = malloc(BUFFER_SIZE * sizeof(char *));
+	char *token;
+	int i = 0;
+
+	if (tokens == NULL)
+	{
+		perror("malloc failed");
 		return (NULL);
+	}
 
-	path_dup = strdup(path_env);
-	if (path_dup == NULL)
-		return (NULL);
-
-	token = strtok(path_dup, ":");
+	token = strtok(path_env, ":");
 	while (token != NULL)
 	{
-		full_path = malloc(strlen(token) + strlen(command) + 2);
-		if (full_path == NULL)
-		{
-			free(path_dup);
-			return (NULL);
-		}
-		strcpy(full_path, token);
-		strcat(full_path, "/");
-		strcat(full_path, command);
-
-		if (stat(full_path, &st) == 0 && (st.st_mode & S_IXUSR))
-		{
-			free(path_dup);
-			return (full_path);
-		}
-		free(full_path);
+		tokens[i] = token;
+		i++;
 		token = strtok(NULL, ":");
 	}
-	free(path_dup);
+	tokens[i] = NULL;
+
+	return (tokens);
+}
+
+
+char *build_full_path(char *directory, char *command)
+{
+	char *full_path = malloc(strlen(directory) + strlen(command) + 2);
+
+	if (full_path == NULL)
+	{
+		perror("malloc failed");
+		return (NULL);
+	}
+
+	strcpy(full_path, directory);
+	strcat(full_path, "/");
+	strcat(full_path, command);
+
+	return (full_path);
+}
+
+
+char *find_executable_in_directories(char **directories, char *command)
+{
+	struct stat st;
+	char *full_path;
+	int i = 0;
+
+	while (directories[i] != NULL)
+	{
+		full_path = build_full_path(directories[i], command);
+		if (full_path == NULL)
+			continue;
+
+		if (stat(full_path, &st) == 0 && (st.st_mode & S_IXUSR))
+			return (full_path);
+
+		free(full_path);
+		i++;
+	}
+
 	return (NULL);
+}
+
+
+char *find_executable_path(char *command)
+{
+	char *path_env, *full_path;
+	char **directories;
+
+	if (command == NULL || strchr(command, '/'))
+		return (command);
+
+	path_env = get_path_env();
+	if (path_env == NULL)
+		return (NULL);
+
+	directories = tokenize_path(path_env);
+	free(path_env);
+
+	if (directories == NULL)
+		return (NULL);
+
+	full_path = find_executable_in_directories(directories, command);
+	free(directories);
+
+	return (full_path);
 }

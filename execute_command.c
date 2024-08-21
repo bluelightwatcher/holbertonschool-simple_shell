@@ -1,19 +1,18 @@
 #include "main.h"
 
 /**
- * execute_command - command forks a process to execute in child process
- * @args: is a pointer to array of string args
- * @program_name: name of the program required for the error message
- * @environ: is a pointer to array of environment variables
+ * execute_command - forks a process to execute a command
+ * @args: pointer to array of string args
+ * @program_name: name of the program for error messages
+ * @environ: pointer to array of environment variables
  * Return: void
  */
-
 void execute_command(char *program_name, char **args, char **environ)
 {
 	pid_t pid;
 	char *executable_path;
 
-	executable_path = find_executable_path(args[0], environ);
+	executable_path = find_executable_path(args[0]);
 
 	if (executable_path == NULL)
 	{
@@ -39,6 +38,7 @@ void execute_command(char *program_name, char **args, char **environ)
 	{
 		wait(NULL);
 	}
+
 	if (executable_path != args[0])
 		free(executable_path);
 }

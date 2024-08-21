@@ -15,6 +15,11 @@ char ** token_args(char *);
 char * process_input(void);
 void execute_command(char *program_name, char **args, char **env);
 void display_prompt(void);
-char *find_executable_path(char *command, char **environ);
+
+char *get_path_env(void);
+char **tokenize_path(char *path_env);
+char *build_full_path(char *directory, char *command);
+char *find_executable_in_directories(char **directories, char *command);
+char *find_executable_path(char *command);
 
 #endif
