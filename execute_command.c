@@ -11,6 +11,15 @@
 void execute_command(char *program_name, char **args, char **environ)
 {
 	pid_t pid;
+	char *executable_path;
+
+	executable_path = find_executable_path(args[0], environ);
+
+	if (executable_path == NULL)
+	{
+		fprintf(stderr, "%s: 1: %s: not found\n", program_name, args[0]);
+		return;
+	}
 
 	pid = fork();
 	if (pid < 0)
@@ -20,7 +29,7 @@ void execute_command(char *program_name, char **args, char **environ)
 	}
 	if (pid == 0)
 	{
-		if (execve(args[0], args, environ) == -1)
+		if (execve(executable_path, args, environ) == -1)
 		{
 			fprintf(stderr, "%s: 1: %s: not found\n", program_name, args[0]);
 			exit(EXIT_FAILURE);
@@ -30,5 +39,6 @@ void execute_command(char *program_name, char **args, char **environ)
 	{
 		wait(NULL);
 	}
-
+	if (executable_path != args[0])
+		free(executable_path);
 }
