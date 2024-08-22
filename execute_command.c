@@ -1,5 +1,4 @@
 #include "main.h"
-
 /**
  * execute_command - Executes a command by forking a child process
  * @program_name: The name of the shell program
@@ -24,11 +23,10 @@ void execute_command(char *program_name, char **args, char **environ)
 		fprintf(stderr, "%s: %s: command not found\n", program_name, args[0]);
 		return;
 	}
-
 	pid = fork();
 	if (pid == -1)
 	{
-		perror("Error:");
+		perror("fork");
 		free(executable_path);
 		return;
 	}
@@ -36,15 +34,15 @@ void execute_command(char *program_name, char **args, char **environ)
 	{
 		if (execve(executable_path, args, environ) == -1)
 		{
-			perror("Error:");
+			perror(program_name);
 			free(executable_path);
 			exit(EXIT_FAILURE);
 		}
 	}
 	else
 	{
-		wait(&status);
+		if (waitpid(pid, &status, 0) == -1)
+			perror("waitpid");
 	}
-
 	free(executable_path);
 }
