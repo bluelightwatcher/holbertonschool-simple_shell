@@ -11,18 +11,20 @@
 #include <sys/stat.h>
 #include <fcntl.h> /* Required for open function */
 
+extern char **environ;
+
 /* Built-in command handlers */
-int shell_exit(char **args);
+void shell_exit(char **args);
+void shell_env(void);
+
 /* Command execution */
 void execute_command(char *program_name, char **args, char **environ);
 
 /* Utility functions */
 int handle_builtin(char **args);
-int handle_redirection(char **args);
 char *expand_variables(char *input);
 
 /* Path-related functions */
-char *get_path_env_copy(void);
 char *find_executable_path(char *command);
 
 /* Shell operation functions */
@@ -30,7 +32,6 @@ void non_interactive(char *program_name, char **environ);
 char **token_args(char *input);
 char *process_input(void);
 void display_prompt(void);
-
 void free_args(char **args);
 
 #endif /* MAIN_H */

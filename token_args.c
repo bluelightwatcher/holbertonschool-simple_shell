@@ -7,42 +7,49 @@
  */
 char **token_args(char *input)
 {
-	char **args = malloc(BUFFER_SIZE * sizeof(char *));
-	char *token;
-	int i = 0;
+    char **args = NULL;
+    char *token;
+    size_t i = 0;
+    size_t bufsize = BUFFER_SIZE;
 
-	if (args == NULL)
-	{
-		perror("malloc failed");
-		exit(EXIT_FAILURE);
-	}
+    if (!input)
+        return NULL;
 
-	token = strtok(input, " ");
-	while (token != NULL)
-	{
-		if (strlen(token) > 0)
-		{
-			args[i] = strdup(token);
-			if (args[i] == NULL)
-			{
-				perror("strdup failed");
-				exit(EXIT_FAILURE);
-			}
-			i++;
-		}
-		token = strtok(NULL, " ");
-	}
-	args[i] = NULL;
+    args = malloc(bufsize * sizeof(char *));
+    if (!args)
+    {
+        perror("Allocation error");
+        exit(EXIT_FAILURE);
+    }
 
-	if (i == 0)
-	{
-		free(args);
-		return (NULL);
-	}
+    token = strtok(input, " \t\r\n\a");
+    while (token != NULL)
+    {
+        args[i] = strdup(token);
+        if (!args[i])
+        {
+            perror("Allocation error");
+            free_args(args);
+            exit(EXIT_FAILURE);
+        }
+        i++;
 
-	return (args);
+        if (i >= bufsize)
+        {
+            bufsize += BUFFER_SIZE;
+            args = realloc(args, bufsize * sizeof(char *));
+            if (!args)
+            {
+                perror("Reallocation error");
+                exit(EXIT_FAILURE);
+            }
+        }
+
+        token = strtok(NULL, " \t\r\n\a");
+    }
+    args[i] = NULL;
+    return args;
 }
-
 
 /**
  * free_args - frees memory allocated for args
@@ -50,16 +57,15 @@ char **token_args(char *input)
  */
 void free_args(char **args)
 {
-	int i = 0;
+    size_t i = 0;
 
-	if (args == NULL)
-		return;
+    if (!args)
+        return;
 
-	while (args[i])
-	{
-		free(args[i]);
-		i++;
-	}
-
-	free(args);
+    while (args[i])
+    {
+        free(args[i]);
+        i++;
+    }
+    free(args);
 }

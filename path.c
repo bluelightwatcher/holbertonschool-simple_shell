@@ -1,66 +1,39 @@
 #include "main.h"
 
-/**
- * get_path_env_copy - Retrieves and duplicates the PATH environment variable.
- *
- * Return: A duplicated string PATH environment variable, or NULL if not found.
- */
-char *get_path_env_copy(void)
+char *build_full_path(char *dir, char *command)
 {
-	char *path_env = getenv("PATH");
+    size_t dir_len = strlen(dir), command_len = strlen(command);
+    char *full_path = malloc(dir_len + command_len + 2);
 
-	if (!path_env)
-		return (NULL);
-
-	return (strdup(path_env));
+    if (!full_path)
+        return (NULL);
+    strcpy(full_path, dir);
+    full_path[dir_len] = '/';
+    strcpy(full_path + dir_len + 1, command);
+    return (full_path);
 }
 
-
-/**
- * find_executable_path - Finds the full path of a command.
- * @command: The command name.
- *
- * Return: The full path of the executable command, or NULL if not found.
- */
 char *find_executable_path(char *command)
 {
-	char *path_env_copy, *directory, *full_path;
-	struct stat st;
+    char *path_env, *path_copy, *dir, *full_path;
 
-
-	if (command[0] == '/' || command[0] == '.')
-	{
-		if (access(command, X_OK) == 0)
-			return (strdup(command));
-		return (NULL);
-	}
-	path_env_copy = get_path_env_copy();
-	if (!path_env_copy)
-		return (NULL);
-
-
-	directory = strtok(path_env_copy, ":");
-	while (directory)
-	{
-		full_path = malloc(strlen(directory) + strlen(command) + 2);
-		if (!full_path)
-		{
-			free(path_env_copy);
-			return (NULL);
-		}
-
-		sprintf(full_path, "%s/%s", directory, command);
-
-		if (stat(full_path, &st) == 0 && (st.st_mode & S_IXUSR))
-		{
-			free(path_env_copy);
-			return (full_path);
-		}
-
-		free(full_path);
-		directory = strtok(NULL, ":");
-	}
-
-	free(path_env_copy);
-	return (NULL);
+    if (command[0] == '/' || command[0] == '.')
+        return (access(command, X_OK) == 0 ? strdup(command) : NULL);
+    path_env = getenv("PATH");
+    if (!path_env || !(path_copy = strdup(path_env)))
+        return (NULL);
+    for (dir = strtok(path_copy, ":"); dir; dir = strtok(NULL, ":"))
+    {
+        if (!(full_path = build_full_path(dir, command)))
+            continue;
+        if (access(full_path, X_OK) == 0)
+        {
+            free(path_copy);
+            return (full_path);
+        }
+        free(full_path);
+    }
+    free(path_copy);
+    return (NULL);
 }
+
