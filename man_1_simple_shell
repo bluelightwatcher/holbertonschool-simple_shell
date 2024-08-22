@@ -1,0 +1,26 @@
+NAME
+	simple_shell - a custom simple_shell
+
+SYNOPSIS
+	simple_shell - command string
+
+COPYRIGHT
+	This is an educational project copyrights are not applicable
+
+DESCRIPTION 
+	Simple_shell is a recreation of the bash command line interpreter. It executes command read from the stdin or file. The binary files used to run executable files are "borrowed" to the bash shell, usually stored in your /bin/ on a linux system
+
+OPTIONS
+	Simple_shell does not handle options. 
+
+ARGUMENTS
+	Simple_shell also handles command line arguments. It behave as exepected if an argument is provided after the command line a simple_shell will look for the binary and proceed to execute the command and its argument. If no binary is found it will return an error message to stderr which shows in stdout. 
+INVOCATION
+	Simple_shell can be run interactively and non interactively. 
+
+	When interactive simple_shell will display a prompt to the user. It is the same PS1 as in bash ("$").The input are read from stdin and both output of command line executions and error messages shows in stdout.
+
+	When non-interactive simple_shell will execute command from a stdin or a file can be piped to the program. Contrary to a bash script, simply look for the function executable in the /bin folder do not use common shebang #/bin/bash.
+
+SUMMARY
+	Simple_shel provides the similar output as the bash shell would. Its design is obvioulsy more primitive although it handles basic functionalities borrowed from the bash shell itself. 
