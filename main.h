@@ -13,12 +13,12 @@
 
 /* Built-in command handlers */
 int shell_exit(char **args);
-
+void print_env(char **environ);
 /* Command execution */
 void execute_command(char *program_name, char **args, char **environ);
 
 /* Utility functions */
-int handle_builtin(char **args);
+int handle_builtin(char **args, char **environ);
 int handle_redirection(char **args);
 char *expand_variables(char *input);
 
