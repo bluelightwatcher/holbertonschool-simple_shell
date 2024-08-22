@@ -12,8 +12,6 @@
 #include <fcntl.h> /* Required for open function */
 
 /* Built-in command handlers */
-int shell_cd(char **args);
-int shell_export(char **args);
 int shell_exit(char **args);
 
 /* Command execution */
