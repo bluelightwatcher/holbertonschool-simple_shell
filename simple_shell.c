@@ -9,41 +9,41 @@
  */
 int main(int argc, char **argv, char **environ)
 {
-    char *input = NULL;
-    char **args = NULL;
-    int interactive = isatty(STDIN_FILENO);
+	char *input = NULL;
+	char **args = NULL;
+	int interactive = isatty(STDIN_FILENO);
 
-    (void)argc;
+	(void)argc;
 
-    if (interactive)
-    {
-        while (1)
-        {
-            display_prompt();
-            input = process_input();
-            if (!input)
-            {
-                if (feof(stdin))
-                {
-                    printf("\n");
-                    break;
-                }
-                continue;
-            }
-            args = token_args(input);
-            free(input);
-            if (!args || !args[0])
-            {
-                free_args(args);
-                continue;
-            }
-            execute_command(argv[0], args, environ);
-            free_args(args);
-        }
-    }
-    else
-    {
-        non_interactive(argv[0], environ);
-    }
-    return EXIT_SUCCESS;
+	if (interactive)
+	{
+		while (1)
+		{
+			display_prompt();
+			input = process_input();
+			if (!input)
+			{
+				if (feof(stdin))
+				{
+					printf("\n");
+					break;
+				}
+				continue;
+			}
+			args = token_args(input);
+			free(input);
+			if (!args || !args[0])
+			{
+				free_args(args);
+				continue;
+			}
+			execute_command(argv[0], args, environ);
+			free_args(args);
+		}
+	}
+	else
+	{
+		non_interactive(argv[0], environ);
+	}
+	return (EXIT_SUCCESS);
 }

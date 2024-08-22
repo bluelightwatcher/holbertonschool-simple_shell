@@ -5,12 +5,12 @@
  */
 void shell_env(void)
 {
-    int i = 0;
+	int i = 0;
 
-    while (environ[i])
-    {
-        printf("%s\n", environ[i]);
-        i++;
-    }
+	while (environ[i])
+	{
+		printf("%s\n", environ[i]);
+		i++;
+	}
 }
 

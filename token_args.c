@@ -7,48 +7,45 @@
  */
 char **token_args(char *input)
 {
-    char **args = NULL;
-    char *token;
-    size_t i = 0;
-    size_t bufsize = BUFFER_SIZE;
+	char **args = NULL;
+	char *token;
+	size_t i = 0;
+	size_t bufsize = BUFFER_SIZE;
 
-    if (!input)
-        return NULL;
+	if (!input)
+		return (NULL);
 
-    args = malloc(bufsize * sizeof(char *));
-    if (!args)
-    {
-        perror("Allocation error");
-        exit(EXIT_FAILURE);
-    }
-
-    token = strtok(input, " \t\r\n\a");
-    while (token != NULL)
-    {
-        args[i] = strdup(token);
-        if (!args[i])
-        {
-            perror("Allocation error");
-            free_args(args);
-            exit(EXIT_FAILURE);
-        }
-        i++;
-
-        if (i >= bufsize)
-        {
-            bufsize += BUFFER_SIZE;
-            args = realloc(args, bufsize * sizeof(char *));
-            if (!args)
-            {
-                perror("Reallocation error");
-                exit(EXIT_FAILURE);
-            }
-        }
-
-        token = strtok(NULL, " \t\r\n\a");
-    }
-    args[i] = NULL;
-    return args;
+	args = malloc(bufsize * sizeof(char *));
+	if (!args)
+	{
+		perror("Allocation error");
+		exit(EXIT_FAILURE);
+	}
+	token = strtok(input, " \t\r\n\a");
+	while (token != NULL)
+	{
+		args[i] = strdup(token);
+		if (!args[i])
+		{
+			perror("Allocation error");
+			free_args(args);
+			exit(EXIT_FAILURE);
+		}
+		i++;
+		if (i >= bufsize)
+		{
+			bufsize += BUFFER_SIZE;
+			args = realloc(args, bufsize * sizeof(char *));
+			if (!args)
+			{
+				perror("Reallocation error");
+				exit(EXIT_FAILURE);
+			}
+		}
+		token = strtok(NULL, " \t\r\n\a");
+	}
+	args[i] = NULL;
+	return (args);
 }
 
 /**
@@ -57,15 +54,15 @@ char **token_args(char *input)
  */
 void free_args(char **args)
 {
-    size_t i = 0;
+	size_t i = 0;
 
-    if (!args)
-        return;
+	if (!args)
+		return;
 
-    while (args[i])
-    {
-        free(args[i]);
-        i++;
-    }
-    free(args);
+	while (args[i])
+	{
+		free(args[i]);
+		i++;
+	}
+	free(args);
 }

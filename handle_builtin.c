@@ -8,15 +8,15 @@
  */
 int handle_builtin(char **args)
 {
-    if (strcmp(args[0], "exit") == 0)
-    {
-        shell_exit(args);
-        return 1;
-    }
-    else if (strcmp(args[0], "env") == 0)
-    {
-        shell_env();
-        return 1;
-    }
-    return 0;
+	if (strcmp(args[0], "exit") == 0)
+	{
+		shell_exit(args);
+		return (1);
+	}
+	else if (strcmp(args[0], "env") == 0)
+	{
+		shell_env();
+		return (1);
+	}
+	return (0);
 }
