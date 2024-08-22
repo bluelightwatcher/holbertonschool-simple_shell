@@ -173,5 +173,5 @@ The project is divided into several modules that handle different functionalitie
 
 ## Authors
 
--   **Fabio Dejieux**
--   **Etienne Seguin**
+-   **Fabio Dejieux** [[https://github.com/Pizzapanda92]]
+-   **Etienne Seguin**[[https://github.com/bluelightwatcher]]
