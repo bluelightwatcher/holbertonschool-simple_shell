@@ -16,5 +16,6 @@ int shell_exit(char **args)
 		status = atoi(args[1]);
 	}
 
+	free_args(args);
 	exit(status);
 }
