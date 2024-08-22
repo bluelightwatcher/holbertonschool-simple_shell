@@ -14,7 +14,6 @@
 extern char **environ;
 
 /* Built-in command handlers */
-void shell_exit(char **args);
 void shell_env(void);
 
 /* Command execution */
