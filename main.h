@@ -23,10 +23,7 @@ int handle_redirection(char **args);
 char *expand_variables(char *input);
 
 /* Path-related functions */
-char *get_path_env(void);
-char **tokenize_path(char *path_env);
-char *build_full_path(char *directory, char *command);
-char *find_executable_in_directories(char **directories, char *command);
+char *get_path_env_copy(void);
 char *find_executable_path(char *command);
 
 /* Shell operation functions */

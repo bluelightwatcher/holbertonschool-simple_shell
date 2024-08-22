@@ -35,7 +35,7 @@ int main(int argc, char **argv, char **environ)
 			}
 			execute_command(program_name, args, environ);
 			free(input);
-			free(args);
+			free_args(args);
 		}
 	}
 	else

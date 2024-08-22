@@ -22,7 +22,7 @@ void non_interactive(char *program_name, char **environ)
 		if (args)
 		{
 			execute_command(program_name, args, environ);
-			free(args);
+			free_args(args);
 		}
 	}
 
