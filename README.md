@@ -62,11 +62,7 @@ The goal of this project was to recreate some basic functionalities of a Unix sh
 
 To compile the project, use the following command:
 
-bash
-
-Copier le code
-
-`gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh` 
+    gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
 
 This command compiles all `.c` files in the project and generates an executable named `hsh`.
 
@@ -91,31 +87,19 @@ ajouté l'image ici
 
 To compile the project, use the following command:
 
-bash
-
-Copier le code
-
-`gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh` 
+    gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh` 
 
 This command compiles all `.c` files in the project and generates an executable named `hsh`.
 
 ### Launching the Shell
 
-After compiling, you can start the shell with the following command:
-
-bash
-
-Copier le code
+After compiling, you can start the shell with the following command :
 
 `./hsh` 
 
 ### Shell Prompt
 
 When you start the shell, you will see a prompt displayed as follows:
-
-bash
-
-Copier le code
 
 `$` 
 
@@ -126,52 +110,36 @@ This prompt indicates that the shell is ready to accept commands.
 Here are some examples of commands you can execute in the shell:
 
 #### 1. Display the current working directory (`pwd`)
-
-bash
-
-Copier le code
-
-`$ pwd
-/home/user/project_directory` 
+    $ pwd 
+    /home/user/project_directory`
 
 #### 2. List files in the current directory (`ls`)
 
-bash
+    $ ls
+    file1  file2  directory1
 
-Copier le code
-
-`$ ls
-file1  file2  directory1` 
 
 #### 3. List files with details (`ls -l`)
 
-bash
+    $ ls -l 
+    total 4
+    -rwxr-xr-x 1 user user  0 Jan  1 00:00 file1
+    -rwxr-xr-x 1 user user  0 Jan  1 00:00 file2
+    drwxr-xr-x 2 user user 4096 Jan  1 00:00
+    directory1`
 
-Copier le code
-
-`$ ls -l
-total 4
--rwxr-xr-x 1 user user  0 Jan  1 00:00 file1
--rwxr-xr-x 1 user user  0 Jan  1 00:00 file2
-drwxr-xr-x 2 user user 4096 Jan  1 00:00 directory1` 
 
 #### 4. Non-Interactive Mode
 
 The shell can also be executed in non-interactive mode by piping a command into it. For example, to execute the `ls` command via the shell, you can use:
 
-bash
 
-Copier le code
+	echo "/bin/ls" | ./hsh
 
-`╰─ echo "/bin/ls" | ./hsh` 
 
 The result might look like this:
 
-bash
-
-Copier le code
-
-`file1  file2  directory1` 
+	file1  file2  directory1`
 
 This mode is useful for running commands from other scripts or programs without entering an interactive shell session.
 
@@ -179,11 +147,7 @@ This mode is useful for running commands from other scripts or programs without 
 
 To exit the shell in interactive mode, you can use the command:
 
-bash
-
-Copier le code
-
-`$ exit` 
+   `$ exit`
 
 You can also exit the shell by pressing "Ctrl+D".
 
