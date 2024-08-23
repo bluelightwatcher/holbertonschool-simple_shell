@@ -12,16 +12,17 @@ char **token_args(char *input)
 	size_t i = 0;
 	size_t bufsize = BUFFER_SIZE;
 
-	if (!input)
+	if (!input) /* Checks if input is valid */
 		return (NULL);
 
-	args = malloc(bufsize * sizeof(char *));
+	args = malloc(bufsize * sizeof(char *)); /* Allocates spaces for args */
 	if (!args)
 	{
 		perror("Allocation error");
 		exit(EXIT_FAILURE);
 	}
-	token = strtok(input, " \t\r\n\a");
+	/* Slicing string in multiple token/args */
+	token = strtok(input, " \t\r\n\a"); 
 	while (token != NULL)
 	{
 		args[i] = strdup(token);
@@ -32,6 +33,7 @@ char **token_args(char *input)
 			exit(EXIT_FAILURE);
 		}
 		i++;
+		/* Realloc memory if needed */
 		if (i >= bufsize)
 		{
 			bufsize += BUFFER_SIZE;
@@ -44,7 +46,7 @@ char **token_args(char *input)
 		}
 		token = strtok(NULL, " \t\r\n\a");
 	}
-	args[i] = NULL;
+	args[i] = NULL; /* Last args has to be nulled*/
 	return (args);
 }
 
