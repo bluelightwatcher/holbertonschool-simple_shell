@@ -44,7 +44,7 @@ char *find_executable_path(char *command)
 	if (!path_copy)
 		return (NULL);
 
-	/* Parcourt chaque répertoire dans PATH */
+	/* Browse each directory in PATH */
 	dir = strtok(path_copy, ":");
 	while (dir != NULL)
 	{
@@ -54,7 +54,7 @@ char *find_executable_path(char *command)
 			dir = strtok(NULL, ":");
 			continue;
 		}
-		/* Vérifie si la commande est exécutable */
+		/* Checks if the command is executable */
 		if (access(full_path, X_OK) == 0)
 		{
 			free(path_copy);
