@@ -12,6 +12,7 @@ void non_interactive(char *program_name, char **environ)
 	size_t input_size = 0;
 	ssize_t line_length;
 
+	/* looping over user input to handle multiple lines script */
 	line_length = getline(&input, &input_size, stdin);
 	while (line_length != -1)
 	{

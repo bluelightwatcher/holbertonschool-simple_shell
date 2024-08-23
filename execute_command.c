@@ -11,6 +11,7 @@ void execute_command(char *program_name, char **args, char **environ)
 	pid_t pid;
 	int status;
 
+	/* this section handles exceptions prior to fork the process */
 	if (!args || !args[0])
 		return;
 
@@ -23,6 +24,7 @@ void execute_command(char *program_name, char **args, char **environ)
 		fprintf(stderr, "%s: %s: command not found\n", program_name, args[0]);
 		return;
 	}
+	/* this sections forks the process and execute the command */
 	pid = fork();
 	if (pid == -1)
 	{
@@ -34,7 +36,7 @@ void execute_command(char *program_name, char **args, char **environ)
 	{
 		if (execve(executable_path, args, environ) == -1)
 		{
-			perror(program_name);
+			perror("execution failled");
 			free(executable_path);
 			exit(EXIT_FAILURE);
 		}
@@ -42,7 +44,7 @@ void execute_command(char *program_name, char **args, char **environ)
 	else
 	{
 		if (waitpid(pid, &status, 0) == -1)
-			perror("waitpid");
+			perror("waitpid failled");
 	}
 	free(executable_path);
 }
