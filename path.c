@@ -32,9 +32,11 @@ char *find_executable_path(char *command)
 {
 	char *path_env, *path_copy, *dir, *full_path;
 
+	/* If the command is an absolute or relative path */
 	if (command[0] == '/' || command[0] == '.')
 		return (access(command, X_OK) == 0 ? strdup(command) : NULL);
 
+	/* Gets the PATH environment variable */
 	path_env = getenv("PATH");
 	if (!path_env)
 		return (NULL);
@@ -42,6 +44,7 @@ char *find_executable_path(char *command)
 	if (!path_copy)
 		return (NULL);
 
+	/* Parcourt chaque répertoire dans PATH */
 	dir = strtok(path_copy, ":");
 	while (dir != NULL)
 	{
@@ -51,6 +54,7 @@ char *find_executable_path(char *command)
 			dir = strtok(NULL, ":");
 			continue;
 		}
+		/* Vérifie si la commande est exécutable */
 		if (access(full_path, X_OK) == 0)
 		{
 			free(path_copy);

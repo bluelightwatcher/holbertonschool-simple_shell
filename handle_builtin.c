@@ -8,6 +8,7 @@
  */
 int handle_builtin(char **args)
 {
+	/* Vérifie si la commande est 'env' */
 	if (strcmp(args[0], "env") == 0)
 	{
 		shell_env();

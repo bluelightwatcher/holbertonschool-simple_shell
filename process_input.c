@@ -6,18 +6,20 @@
  */
 char *process_input(void)
 {
-	char *input = NULL; /*input set to NULL to let getline malloc space in memory */
+	/*input set to NULL to let getline malloc space in memory */
+	char *input = NULL;
 	size_t input_size = 0;
 	ssize_t line_length;
 
 	line_length = getline(&input, &input_size, stdin);
-	if (line_length == -1) /*Checks if get line failled*/
+	/*Checks if get line failled*/
+	if (line_length == -1)
 	{
 		free(input);
-		return (NULL);  
+		return (NULL);
 	}
-
-	input[strcspn(input, "\n")] = '\0'; /* Change newline character to Null terminator */
-	return (input); 
+	 /* Change newline character to Null terminator */
+	input[strcspn(input, "\n")] = '\0';
+	return (input);
 }
 
