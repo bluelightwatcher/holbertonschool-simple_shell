@@ -75,11 +75,9 @@ This command compiles all `.c` files in the project and generates an executable 
 
 ## Flowchart
 
-_Please add the flowchart diagram at the location indicated above._
+Here is the flowchart of the main function flow:
 
-ajouté l'image ici
-
-
+![[https://github.com/bluelightwatcher/holbertonschool-simple_shell/blob/main/Flowchart/Simple_shell_flow_chart.png]] 
 
 ## How to Use
 
