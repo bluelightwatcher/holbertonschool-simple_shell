@@ -17,11 +17,12 @@ int main(int argc, char **argv, char **environ)
 
 	if (interactive)
 	{
+		/* Starting infinite loop for interactive mode */
 		while (1)
 		{
 			display_prompt();
 			input = process_input();
-			if (!input)
+			if (!input) /* Checks if input is EOF */
 			{
 				if (feof(stdin))
 				{
@@ -32,7 +33,7 @@ int main(int argc, char **argv, char **environ)
 			}
 			args = token_args(input);
 			free(input);
-			if (!args || !args[0])
+			if (!args || !args[0]) /* Checks if args are valid */
 			{
 				free_args(args);
 				continue;
@@ -41,7 +42,7 @@ int main(int argc, char **argv, char **environ)
 			free_args(args);
 		}
 	}
-	else
+	else /* run non interactive mode */
 	{
 		non_interactive(argv[0], environ);
 	}
